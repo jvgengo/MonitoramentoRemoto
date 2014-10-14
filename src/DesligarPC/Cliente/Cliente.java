@@ -9,10 +9,7 @@ import java.rmi.registry.Registry;
 import DesligarPC.Servidor.InterfaceDesligar;
 
 public class Cliente {
-	
-	public static void main(String[] args) {
-		desligar();
-	}
+
 	
 	public static void desligar() {
 		try {

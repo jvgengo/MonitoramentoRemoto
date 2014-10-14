@@ -48,7 +48,7 @@ public class Verificadora implements Runnable{
 	
 	private boolean verificaCabo() throws SocketException, InterruptedException {
 		desconectadoAntes = desconectou;//guarda estado anterior 
-		desconectou = !ni.isUp();		//fica true se não estiver conectado
+		desconectou = !ni.isUp();		//fica true se nï¿½o estiver conectado
 		Thread.sleep(1000);
 		return ni.isUp();
 	}
@@ -57,7 +57,6 @@ public class Verificadora implements Runnable{
 		rodando = false;
 	}
 	
-	@Override
 	public void run(){
 		while(rodando) {
 			try {

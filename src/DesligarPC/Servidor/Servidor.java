@@ -11,7 +11,6 @@ public class Servidor extends UnicastRemoteObject implements InterfaceDesligar{
 		super();
 	}
 
-	@Override
 	public void desligar() throws IOException {
 		Runtime.getRuntime().exec("cmd /c c:\\windows\\system32\\shutdown -s -f -t 0");
 	}

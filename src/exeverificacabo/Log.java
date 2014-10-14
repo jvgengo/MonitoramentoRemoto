@@ -20,7 +20,7 @@ public class Log {
 			
 	}
 	
-	public void notificar(String usuario, String ip) throws IOException {
+	public String notificar(String usuario, String ip) throws IOException {
 		
 		//pegando a data-hora
 		StringBuilder notificacao = new StringBuilder();
@@ -42,6 +42,8 @@ public class Log {
 		out.close();
 		
 		System.out.println("Gravou");
+		
+		return notificacao.toString();
 	}
 	
 	
