@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import DesligarPC.Cliente.Cliente;
+import LigarPC.WakeOnLan;
 import exeverificacabo.Verificadora;
 
 @SuppressWarnings("serial")
@@ -60,7 +61,8 @@ public class Painel extends JPanel {
 		btnLigar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				WakeOnLan wol = new WakeOnLan();
+				wol.WOL();
 			}
 			
 		});
