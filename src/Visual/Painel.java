@@ -8,8 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import DesligarPC.Cliente.Cliente;
-import LigarPC.WakeOnLan;
+import Monitoramento.Monitor;
 import exeverificacabo.Verificadora;
 
 @SuppressWarnings("serial")
@@ -17,10 +16,14 @@ public class Painel extends JPanel {
 
 	public static final int LARGURA = 400;
 	public static final int ALTURA = 80;
+	
+	private Monitor monitor;
 
-	private JButton btnDesligar, btnVerificaCabo, btnLigar;
+	private JButton btnDesligar, btnVerificaCabo, btnLigar, btnLigarArquivo,
+			btnDesligarArquivo;
 
 	public Painel() {
+		monitor = new Monitor();
 		setSize(LARGURA, ALTURA);
 		setFocusable(true);
 		requestFocus();
@@ -37,13 +40,45 @@ public class Painel extends JPanel {
 		btnDesligar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Cliente.desligar();
+				monitor.desligar();
 			}
-			
+
 		});
-		
+
 		this.add(btnDesligar);
-		
+
+		btnLigar = new JButton("Ligar pc");
+		btnLigar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				monitor.ligarPc();
+			}
+
+		});
+
+		this.add(btnLigar);
+
+		btnLigarArquivo = new JButton("Ligar Arq");
+		btnLigarArquivo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+
+		});
+
+		this.add(btnLigarArquivo);
+
+		btnDesligarArquivo = new JButton("Desligar Arq");
+		btnDesligarArquivo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+
+		});
+
+		this.add(btnDesligarArquivo);
 
 		btnVerificaCabo = new JButton("Verificar cabo");
 		btnVerificaCabo.addMouseListener(new MouseAdapter() {
@@ -52,25 +87,13 @@ public class Painel extends JPanel {
 				Verificadora v = new Verificadora();
 				v.iniciarVerificadora();
 			}
-			
+
 		});
-		
+
 		this.add(btnVerificaCabo);
-		
-		btnLigar = new JButton("Ligar pc");
-		btnLigar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				WakeOnLan wol = new WakeOnLan();
-				wol.WOL();
-			}
-			
-		});
-		
-		this.add(btnLigar);
-		
+
 		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		
+
 	}
 
 }
