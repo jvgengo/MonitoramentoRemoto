@@ -16,8 +16,9 @@ public class Mensageiro extends UnicastRemoteObject implements InterfaceMensagei
 	}
 	
 	@Override
-	public void desligar() throws IOException {
+	public boolean desligar() throws IOException {
 		Runtime.getRuntime().exec("cmd /c c:\\windows\\system32\\shutdown -s -f -t 0");
+		return true;
 	}
 
 	@Override

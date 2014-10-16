@@ -15,7 +15,7 @@ import exeverificacabo.Verificadora;
 public class Painel extends JPanel {
 
 	public static final int LARGURA = 400;
-	public static final int ALTURA = 80;
+	public static final int ALTURA = 100;
 	
 	private Monitor monitor;
 
@@ -62,7 +62,7 @@ public class Painel extends JPanel {
 		btnLigarArquivo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+//				monitor.ligarPcArquivo(nomeArq);
 			}
 
 		});
@@ -73,7 +73,7 @@ public class Painel extends JPanel {
 		btnDesligarArquivo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+//				monitor.desligarPcArquivo(nomeArq);
 			}
 
 		});
