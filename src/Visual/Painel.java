@@ -1,7 +1,6 @@
 package Visual;
 
 import java.awt.BorderLayout;
-import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,13 +14,13 @@ import Monitoramento.Monitor;
 @SuppressWarnings("serial")
 public class Painel extends JPanel {
 
-	public static final int LARGURA = 400;
+	public static final int LARGURA = 600;
 	public static final int ALTURA = 200;
 
 	private Monitor monitor;
 
-	private JButton btnDesligar, btnLigar, btnLigarArquivo, btnDesligarArquivo;
-	private JTextField txtMac, txtNomeArq;
+	private JButton btnDesligar, btnLigar, btnLigarArquivo, btnDesligarArquivo,btnTelar;
+	private JTextField txtMac, txtNomeArq,txtIp;
 
 	public Painel() {
 		monitor = new Monitor();
@@ -39,15 +38,26 @@ public class Painel extends JPanel {
 		BorderLayout bLayout = new BorderLayout();
 
 		this.setLayout(bLayout);
-
+		
+		JPanel painelEnderecos = new JPanel();
+		painelEnderecos.setLayout(layout);
+		
 		txtMac = new JTextField("Endereço mac:");
 		txtMac.setEditable(true);
-		add(BorderLayout.NORTH, txtMac);
-
+		painelEnderecos.add(BorderLayout.NORTH, txtMac);
+		
+		txtIp = new JTextField("Endereço ip:");
+		txtIp.setEditable(true);
+		painelEnderecos.add(BorderLayout.CENTER, txtIp);
+		
+		this.add(BorderLayout.NORTH,painelEnderecos);
+		
 		txtNomeArq = new JTextField("Nome arquivo:");
 		txtNomeArq.setEditable(true);
 		add(BorderLayout.CENTER, txtNomeArq);
-
+		
+		
+		
 		JPanel painelBotoes = new JPanel();
 		painelBotoes.setLayout(layout);
 
@@ -95,6 +105,17 @@ public class Painel extends JPanel {
 
 		painelBotoes.add(btnLigarArquivo);
 
+		btnTelar = new JButton("Visualizar Tela");
+		btnTelar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				monitor.visualizarTela(txtIp.getText().toString());
+			}
+
+		});
+
+		painelBotoes.add(btnTelar);
+		
 		this.add(BorderLayout.SOUTH, painelBotoes);
 	}
 

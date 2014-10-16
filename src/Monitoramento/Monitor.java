@@ -1,5 +1,10 @@
 package Monitoramento;
 
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -7,16 +12,17 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
-import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Monitor {
 
@@ -33,7 +39,7 @@ public class Monitor {
 
 	public void desligar() {
 		try {
-			InterfaceMensageiro iDesliga = (InterfaceMensageiro) Naming.lookup("rmi://localhost:5024/Servidor");
+			InterfaceMensageiro iDesliga = (InterfaceMensageiro) Naming.lookup("rmi://localhost:" + Servidor.PORTA + "/Servidor");
 			iDesliga.desligar();
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -54,8 +60,8 @@ public class Monitor {
 				String ip = out.nextLine();
 				InterfaceMensageiro m;
 				try {
-					m = (InterfaceMensageiro) Naming.lookup("rmi://" + ip
-							+ ":5024/Servidor");
+					m = (InterfaceMensageiro) Naming.lookup("rmi://" + ip + ":"
+							+ Servidor.PORTA + "/Servidor");
 					if (m.desligar()) {
 						System.out.println("Computador " + ip
 								+ " desligado com sucesso.");
@@ -88,11 +94,10 @@ public class Monitor {
 	}
 
 	public void ligarPc(String mac) {
-		
+
 		try {
 
-//			byte[] macBytes = mensageiro.getMacAdrress();
-			 byte[] macBytes = mac.getBytes();
+			byte[] macBytes = mac.getBytes();
 
 			ligar(macBytes);
 
@@ -116,7 +121,7 @@ public class Monitor {
 				for (int i = 0; i < 6; ++i) {
 					mac[i] = (byte) Integer.parseInt(st.nextToken(), 16);
 				}
-				
+
 				try {
 					ligar(mac);
 				} catch (UnknownHostException e) {
@@ -129,17 +134,18 @@ public class Monitor {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}finally {
-            try {
-                in.close();
-            } catch (IOException ex) {
-                System.err.println("Impossível fechar o arquivo.");
-            }
-        }
+		} finally {
+			try {
+				in.close();
+			} catch (IOException ex) {
+				System.err.println("Impossível fechar o arquivo.");
+			}
+		}
 
 	}
 
-	private void ligar(byte[] macBytes) throws UnknownHostException, SocketException, IOException {
+	private void ligar(byte[] macBytes) throws UnknownHostException,
+			SocketException, IOException {
 		byte[] bytes = new byte[6 + 16 * macBytes.length];
 
 		for (int i = 0; i < 6; i++) {
@@ -156,7 +162,8 @@ public class Monitor {
 
 		InetAddress address = InetAddress.getByName("255.255.255.255");
 
-		DatagramPacket packet = new DatagramPacket(bytes, bytes.length,address, PORT);
+		DatagramPacket packet = new DatagramPacket(bytes, bytes.length,
+				address, PORT);
 		DatagramSocket socket = new DatagramSocket();
 		socket.setBroadcast(true);
 		socket.send(packet);
@@ -164,6 +171,49 @@ public class Monitor {
 		socket.close();
 
 		System.out.println("Comando WOL enviado");
+	}
+
+	public void visualizarTela(String ip) {
+		InterfaceMensageiro m;
+		BufferedImage img = null;
+		try {
+			System.out.println("Enviado para ... rmi://" + ip + ":"
+					+ Servidor.PORTA + "/Servidor");
+
+			m = (InterfaceMensageiro) Naming.lookup("rmi://" + ip + ":" + Servidor.PORTA
+					+ "/Servidor");
+			img = ImageIO.read(new ByteArrayInputStream(m.getScreenShot()));
+
+			class Painel extends JPanel {
+
+				BufferedImage imagem;
+
+				public Painel(BufferedImage imagem) {
+					this.imagem = imagem;
+				}
+
+				public void paintComponent(Graphics g) {
+					super.paintComponent(g);
+					Graphics2D g2d = (Graphics2D) g;
+					g2d.drawImage(imagem, null, 0, 0);
+				}
+			}
+			JFrame frame = new JFrame();
+			frame.setAlwaysOnTop(true);
+			frame.setSize(img.getWidth(), img.getHeight());
+			frame.setTitle("Telando " + ip);
+			Container pane = frame.getContentPane();
+
+			Painel painel = new Painel(img);
+
+			pane.add(painel);
+
+			frame.setVisible(true);
+
+		} catch (NotBoundException | IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
