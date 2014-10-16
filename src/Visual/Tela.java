@@ -10,7 +10,8 @@ public class Tela {
 		janela.setSize(Painel.LARGURA,Painel.ALTURA);
 		janela.add(new Painel());
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		janela.setVisible(true);
+        janela.setResizable(false);
+        janela.setVisible(true);
 	}
 	
 	public static void main(String[] args) {

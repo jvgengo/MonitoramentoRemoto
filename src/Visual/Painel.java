@@ -1,5 +1,6 @@
 package Visual;
 
+import java.awt.BorderLayout;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
@@ -7,20 +8,20 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import Monitoramento.Monitor;
-import exeverificacabo.Verificadora;
 
 @SuppressWarnings("serial")
 public class Painel extends JPanel {
 
 	public static final int LARGURA = 400;
-	public static final int ALTURA = 100;
-	
+	public static final int ALTURA = 200;
+
 	private Monitor monitor;
 
-	private JButton btnDesligar, btnVerificaCabo, btnLigar, btnLigarArquivo,
-			btnDesligarArquivo;
+	private JButton btnDesligar, btnLigar, btnLigarArquivo, btnDesligarArquivo;
+	private JTextField txtMac, txtNomeArq;
 
 	public Painel() {
 		monitor = new Monitor();
@@ -29,13 +30,27 @@ public class Painel extends JPanel {
 		requestFocus();
 		iniciarComponentes();
 		setVisible(true);
+
 	}
 
 	private void iniciarComponentes() {
 
 		FlowLayout layout = new FlowLayout();
-		this.setLayout(layout);
+		BorderLayout bLayout = new BorderLayout();
+		
+		this.setLayout(bLayout);
 
+		txtMac = new JTextField("Endereço mac:");
+		txtMac.setEditable(true);
+		add(BorderLayout.NORTH,txtMac);
+
+		txtNomeArq = new JTextField("Nome arquivo:");
+		txtNomeArq.setEditable(true);
+		add(BorderLayout.CENTER,txtNomeArq);
+		
+		JPanel painelBotoes = new JPanel();
+		painelBotoes.setLayout(layout);
+		
 		btnDesligar = new JButton("Delisgar PC");
 		btnDesligar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -45,55 +60,43 @@ public class Painel extends JPanel {
 
 		});
 
-		this.add(btnDesligar);
+		painelBotoes.add(btnDesligar);
 
 		btnLigar = new JButton("Ligar pc");
 		btnLigar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				monitor.ligarPc();
+				 monitor.ligarPc(txtMac.getText().toString());
 			}
 
 		});
 
-		this.add(btnLigar);
+		painelBotoes.add(btnLigar);
 
 		btnLigarArquivo = new JButton("Ligar Arq");
 		btnLigarArquivo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				monitor.ligarPcArquivo(nomeArq);
+				 monitor.ligarPcArquivo(txtNomeArq.getText().toString());
 			}
 
 		});
 
-		this.add(btnLigarArquivo);
+		painelBotoes.add(btnLigarArquivo);
 
 		btnDesligarArquivo = new JButton("Desligar Arq");
 		btnDesligarArquivo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				monitor.desligarPcArquivo(nomeArq);
+				 monitor.desligarPcArquivo(txtNomeArq.getText().toString());
 			}
 
 		});
 
-		this.add(btnDesligarArquivo);
-
-		btnVerificaCabo = new JButton("Verificar cabo");
-		btnVerificaCabo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Verificadora v = new Verificadora();
-				v.iniciarVerificadora();
-			}
-
-		});
-
-		this.add(btnVerificaCabo);
-
-		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-
+		painelBotoes.add(btnDesligarArquivo);
+		
+		
+		this.add(BorderLayout.SOUTH,painelBotoes);
 	}
 
 }

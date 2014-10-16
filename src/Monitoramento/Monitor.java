@@ -87,13 +87,12 @@ public class Monitor {
 
 	}
 
-	public void ligarPc() {
+	public void ligarPc(String mac) {
 		
 		try {
 
-			byte[] macBytes = mensageiro.getMacAdrress();
-			// String aux = "80:C1:6E:8C:BA:40";
-			// byte[] macBytes = aux.getBytes();
+//			byte[] macBytes = mensageiro.getMacAdrress();
+			 byte[] macBytes = mac.getBytes();
 
 			ligar(macBytes);
 
@@ -140,8 +139,7 @@ public class Monitor {
 
 	}
 
-	private void ligar(byte[] macBytes)
-			throws UnknownHostException, SocketException, IOException {
+	private void ligar(byte[] macBytes) throws UnknownHostException, SocketException, IOException {
 		byte[] bytes = new byte[6 + 16 * macBytes.length];
 
 		for (int i = 0; i < 6; i++) {
