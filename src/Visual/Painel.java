@@ -37,20 +37,20 @@ public class Painel extends JPanel {
 
 		FlowLayout layout = new FlowLayout();
 		BorderLayout bLayout = new BorderLayout();
-		
+
 		this.setLayout(bLayout);
 
 		txtMac = new JTextField("Endereço mac:");
 		txtMac.setEditable(true);
-		add(BorderLayout.NORTH,txtMac);
+		add(BorderLayout.NORTH, txtMac);
 
 		txtNomeArq = new JTextField("Nome arquivo:");
 		txtNomeArq.setEditable(true);
-		add(BorderLayout.CENTER,txtNomeArq);
-		
+		add(BorderLayout.CENTER, txtNomeArq);
+
 		JPanel painelBotoes = new JPanel();
 		painelBotoes.setLayout(layout);
-		
+
 		btnDesligar = new JButton("Delisgar PC");
 		btnDesligar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -62,11 +62,22 @@ public class Painel extends JPanel {
 
 		painelBotoes.add(btnDesligar);
 
+		btnDesligarArquivo = new JButton("Desligar Arq");
+		btnDesligarArquivo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				monitor.desligarPcArquivo(txtNomeArq.getText().toString());
+			}
+
+		});
+
+		painelBotoes.add(btnDesligarArquivo);
+
 		btnLigar = new JButton("Ligar pc");
 		btnLigar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				 monitor.ligarPc(txtMac.getText().toString());
+				monitor.ligarPc(txtMac.getText().toString());
 			}
 
 		});
@@ -77,26 +88,14 @@ public class Painel extends JPanel {
 		btnLigarArquivo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				 monitor.ligarPcArquivo(txtNomeArq.getText().toString());
+				monitor.ligarPcArquivo(txtNomeArq.getText().toString());
 			}
 
 		});
 
 		painelBotoes.add(btnLigarArquivo);
 
-		btnDesligarArquivo = new JButton("Desligar Arq");
-		btnDesligarArquivo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				 monitor.desligarPcArquivo(txtNomeArq.getText().toString());
-			}
-
-		});
-
-		painelBotoes.add(btnDesligarArquivo);
-		
-		
-		this.add(BorderLayout.SOUTH,painelBotoes);
+		this.add(BorderLayout.SOUTH, painelBotoes);
 	}
 
 }
